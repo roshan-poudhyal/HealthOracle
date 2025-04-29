@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Heart Disease Prediction - HealthOracle{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Heart Disease Prediction</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sex" class="form-label">Sex</label>
+                                <select class="form-select" id="sex" name="sex" required>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cp" class="form-label">Chest Pain Type</label>
+                                <select class="form-select" id="cp" name="cp" required>
+                                    <option value="1">Typical Angina</option>
+                                    <option value="2">Atypical Angina</option>
+                                    <option value="3">Non-anginal Pain</option>
+                                    <option value="4">Asymptomatic</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="trestbps" class="form-label">Resting Blood Pressure (mm Hg)</label>
+                                <input type="number" class="form-control" id="trestbps" name="trestbps" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="chol" class="form-label">Serum Cholesterol (mg/dl)</label>
+                                <input type="number" class="form-control" id="chol" name="chol" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fbs" class="form-label">Fasting Blood Sugar > 120 mg/dl</label>
+                                <select class="form-select" id="fbs" name="fbs" required>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="restecg" class="form-label">Resting ECG Results</label>
+                                <select class="form-select" id="restecg" name="restecg" required>
+                                    <option value="0">Normal</option>
+                                    <option value="1">ST-T Wave Abnormality</option>
+                                    <option value="2">Left Ventricular Hypertrophy</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="thalach" class="form-label">Maximum Heart Rate</label>
+                                <input type="number" class="form-control" id="thalach" name="thalach" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exang" class="form-label">Exercise Induced Angina</label>
+                                <select class="form-select" id="exang" name="exang" required>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="oldpeak" class="form-label">ST Depression Induced by Exercise</label>
+                                <input type="number" step="0.1" class="form-control" id="oldpeak" name="oldpeak" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="slope" class="form-label">Slope of Peak Exercise ST Segment</label>
+                                <select class="form-select" id="slope" name="slope" required>
+                                    <option value="1">Upsloping</option>
+                                    <option value="2">Flat</option>
+                                    <option value="3">Downsloping</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ca" class="form-label">Number of Major Vessels Colored by Fluoroscopy</label>
+                                <select class="form-select" id="ca" name="ca" required>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="thal" class="form-label">Thalassemia</label>
+                                <select class="form-select" id="thal" name="thal" required>
+                                    <option value="3">Normal</option>
+                                    <option value="6">Fixed Defect</option>
+                                    <option value="7">Reversible Defect</option>
+                                </select>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Predict</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% if prediction_result is not None %}
+                    <div class="mt-4">
+                        <div class="alert {% if prediction_result == 1 %}alert-danger{% else %}alert-success{% endif %} text-center" role="alert">
+                            {% if prediction_result == 1 %}
+                            <h4 class="alert-heading">High Risk Detected</h4>
+                            <p>Based on the provided information, you may be at risk of heart disease. Please consult a healthcare professional for a thorough evaluation.</p>
+                            {% else %}
+                            <h4 class="alert-heading">Low Risk</h4>
+                            <p>Based on the provided information, you appear to have a low risk of heart disease. Continue maintaining a healthy lifestyle.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

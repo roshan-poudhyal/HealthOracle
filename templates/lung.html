@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Lung Disease Prediction - HealthOracle{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lung Disease Prediction</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="smokes" class="form-label">Smoking Status</label>
+                                <input type="number" class="form-control" id="smokes" name="smokes" min="0" max="1" step="0.1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="areaq" class="form-label">Area Air Quality Index</label>
+                                <input type="number" class="form-control" id="areaq" name="areaq" min="0" max="1" step="0.1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="alkhol" class="form-label">Alcohol Consumption</label>
+                                <input type="number" class="form-control" id="alkhol" name="alkhol" min="0" max="1" step="0.1" required>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Predict</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% if prediction_result is not None %}
+                    <div class="mt-4">
+                        <div class="alert {% if prediction_result == 1 %}alert-danger{% else %}alert-success{% endif %} text-center" role="alert">
+                            {% if prediction_result == 1 %}
+                            <h4 class="alert-heading">High Risk Detected</h4>
+                            <p>Based on the provided information, you may be at risk of lung disease. Please consult a healthcare professional.</p>
+                            {% else %}
+                            <h4 class="alert-heading">Low Risk</h4>
+                            <p>Based on the provided information, you appear to have a low risk of lung disease. However, maintain regular health check-ups.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Diabetes Prediction - HealthOracle{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Diabetes Prediction</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="pregnancies" class="form-label">Number of Pregnancies</label>
+                                <input type="number" class="form-control" id="pregnancies" name="pregnancies" min="0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="glucose" class="form-label">Glucose Level (mg/dL)</label>
+                                <input type="number" class="form-control" id="glucose" name="glucose" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="blood_pressure" class="form-label">Blood Pressure (mm Hg)</label>
+                                <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="skin_thickness" class="form-label">Skin Thickness (mm)</label>
+                                <input type="number" class="form-control" id="skin_thickness" name="skin_thickness" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="insulin" class="form-label">Insulin Level (mu U/ml)</label>
+                                <input type="number" class="form-control" id="insulin" name="insulin" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bmi" class="form-label">BMI</label>
+                                <input type="number" step="0.1" class="form-control" id="bmi" name="bmi" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="diabetes_pedigree" class="form-label">Diabetes Pedigree Function</label>
+                                <input type="number" step="0.001" class="form-control" id="diabetes_pedigree" name="diabetes_pedigree" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Predict</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% if prediction_result is not None %}
+                    <div class="mt-4">
+                        <div class="alert {% if prediction_result == 1 %}alert-danger{% else %}alert-success{% endif %} text-center" role="alert">
+                            {% if prediction_result == 1 %}
+                            <h4 class="alert-heading">High Risk Detected</h4>
+                            <p>Based on the provided information, you may be at risk of diabetes. Please consult a healthcare professional for a thorough evaluation.</p>
+                            {% else %}
+                            <h4 class="alert-heading">Low Risk</h4>
+                            <p>Based on the provided information, you appear to have a low risk of diabetes. Continue maintaining a healthy lifestyle.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

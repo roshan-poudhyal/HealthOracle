@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Liver Disease Prediction - HealthOracle{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Liver Disease Prediction</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="0">Female</option>
+                                    <option value="1">Male</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="total_bilirubin" class="form-label">Total Bilirubin</label>
+                                <input type="number" step="0.1" class="form-control" id="total_bilirubin" name="total_bilirubin" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="direct_bilirubin" class="form-label">Direct Bilirubin</label>
+                                <input type="number" step="0.1" class="form-control" id="direct_bilirubin" name="direct_bilirubin" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="alkaline_phosphotase" class="form-label">Alkaline Phosphotase</label>
+                                <input type="number" class="form-control" id="alkaline_phosphotase" name="alkaline_phosphotase" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="alamine_aminotransferase" class="form-label">Alamine Aminotransferase</label>
+                                <input type="number" class="form-control" id="alamine_aminotransferase" name="alamine_aminotransferase" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="aspartate_aminotransferase" class="form-label">Aspartate Aminotransferase</label>
+                                <input type="number" class="form-control" id="aspartate_aminotransferase" name="aspartate_aminotransferase" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="total_proteins" class="form-label">Total Proteins</label>
+                                <input type="number" step="0.1" class="form-control" id="total_proteins" name="total_proteins" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="albumin" class="form-label">Albumin</label>
+                                <input type="number" step="0.1" class="form-control" id="albumin" name="albumin" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="albumin_globulin_ratio" class="form-label">Albumin Globulin Ratio</label>
+                                <input type="number" step="0.1" class="form-control" id="albumin_globulin_ratio" name="albumin_globulin_ratio" required>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary">Predict</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% if prediction_result is not None %}
+                    <div class="mt-4">
+                        <div class="alert {% if prediction_result == 1 %}alert-danger{% else %}alert-success{% endif %} text-center" role="alert">
+                            {% if prediction_result == 1 %}
+                            <h4 class="alert-heading">High Risk Detected</h4>
+                            <p>Based on the provided information, you may be at risk of liver disease. Please consult a healthcare professional for further evaluation.</p>
+                            {% else %}
+                            <h4 class="alert-heading">Low Risk</h4>
+                            <p>Based on the provided information, you appear to have a low risk of liver disease. Continue maintaining a healthy lifestyle.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
